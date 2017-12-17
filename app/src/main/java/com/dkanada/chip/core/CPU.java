@@ -65,7 +65,7 @@ public class CPU {
             case 0x2000:
                 // call subroutine
                 pc = getNNN(opcode);
-                memory.setByte(sp++, (char) ((getNNN(opcode) & 0xFF00) >> 8));
+                memory.setByte(sp++, (char) ((getNNN(opcode) & 0x0F00) >> 8));
                 memory.setByte(sp++, (char) (getNNN(opcode) & 0x00FF));
                 break;
             case 0x3000:
@@ -176,21 +176,17 @@ public class CPU {
                 pc += 2;
                 break;
             case 0xD000:
-                char startX = getX(getX(opcode));
-                char startY = getX(getX(opcode));
+                char startX = v[getX(opcode)];
+                char startY = v[getY(opcode)];
                 for (int n = 0; n < getN(opcode); n++) {
                     char line = memory.getByte((char) (i + n));
                     for (int inc = 0; inc < 8; inc++) {
-                        if (display.getPixel(startX + inc, startY + n) == 1) {
-                            v[0xF] = 1;
-                        } else {
-                            v[0xF] = 0;
-                        }
                         char pixel = (char) (line & (0x80 >> inc));
                         if (pixel != 0) {
-                            display.setPixel(startX + inc, startY + n, (byte) 1);
-                        } else {
-                            display.setPixel(startX + inc, startY + n, (byte) 0);
+                            if(display.getPixel((startX + inc) % 64, (startY + n) % 32) != 0) {
+                                v[0xF] = 1;
+                            }
+                            display.setPixel((startX + inc) % 64, (startY + n) % 32, (byte) 1);
                         }
                     }
                 }
@@ -218,35 +214,45 @@ public class CPU {
                 switch (opcode & 0x00FF) {
                     case 0x0007:
                         v[getX(opcode)] = delay;
+                        pc += 2;
                         break;
                     case 0x000A:
                         // TODO
                         break;
                     case 0x0015:
                         delay = v[getX(opcode)];
+                        pc += 2;
                         break;
                     case 0x0018:
                         sound = v[getX(opcode)];
+                        pc += 2;
                         break;
                     case 0x001E:
                         i += v[getX(opcode)];
+                        pc += 2;
                         break;
                     case 0x0029:
-                        // TODO
+                        i = (char) (memory.getFontAddress() + (getX(opcode) * 0x5));
+                        pc += 2;
                         break;
                     case 0x0033:
-                        // TODO
+                        int num = v[getX(opcode)];
+                        for(int inc = 2; inc >= 0; inc--) {
+                            memory.setByte((char) (i + inc), (char) (num % 10));
+                            num /= 10;
+                        }
+                        pc += 2;
                         break;
                     case 0x0055:
                         // dump registers
-                        for (int x = 0; x <= (opcode & 0x0F00); x++) {
+                        for (int x = 0; x <= getX(opcode); x++) {
                             memory.setByte(i++, v[x]);
                         }
                         pc += 2;
                         break;
                     case 0x0065:
                         // load registers
-                        for (int x = 0; x <= (opcode & 0x0F00); x++) {
+                        for (int x = 0; x <= getX(opcode); x++) {
                             v[x] = memory.getByte(i++);
                         }
                         pc += 2;

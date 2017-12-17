@@ -1,6 +1,5 @@
 package com.dkanada.chip.views;
 
-import android.graphics.Canvas;
 import android.util.Log;
 
 import com.dkanada.chip.core.Core;
@@ -19,6 +18,11 @@ public class GameThread extends Thread implements EventListener {
         Core core = new Core(this);
         while (true) {
             core.step();
+            try {
+                sleep(40);
+            } catch (Exception e) {
+                // nothing
+            }
         }
     }
 

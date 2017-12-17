@@ -18,6 +18,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     public GameView(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
+        setFocusable(true);
         setWillNotDraw(false);
 
         paint = new Paint();
@@ -41,18 +42,17 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         int height = canvas.getHeight();
 
         if (display != null) {
-            int stepX = width / display[0].length;
-            int stepY = height / display[1].length;
+            double stepX = width / display.length;
+            double stepY = height / display[0].length;
 
-            for (int x = 0; x < display[0].length; x++) {
-                for (int y = 0; y < display[0].length; y++) {
+            for (int x = 0; x < display.length; x++) {
+                for (int y = 0; y < display[1].length; y++) {
                     if (display[x][y] == 1) {
-                        canvas.drawRect(
-                                stepX * x,
-                                stepY * y,
-                                stepX * (x + 1),
-                                stepY * (y + 1),
-                                paint);
+                        float startX = (float) stepX * x;
+                        float startY = (float) stepY * y;
+                        float endX = (float) stepX * (x + 1);
+                        float endY = (float) stepY * (y + 1);
+                        canvas.drawRect(startX, startY, endX, endY, paint);
                     }
                 }
             }
@@ -63,7 +63,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        gameThread.run();
+        gameThread.start();
     }
 
     @Override
@@ -72,11 +72,5 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-    }
-
-    @Override
-    public void invalidate() {
-        super.invalidate();
-        Log.e("DisplayView: ", "INVALIDATE");
     }
 }

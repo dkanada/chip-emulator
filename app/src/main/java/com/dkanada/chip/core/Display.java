@@ -20,6 +20,6 @@ public class Display {
     }
 
     public void setPixel(int x, int y, byte value) {
-        display[x][y] = value;
+        display[x][y] ^= value;
     }
 }
