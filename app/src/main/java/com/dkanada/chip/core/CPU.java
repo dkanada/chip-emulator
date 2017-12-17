@@ -1,7 +1,6 @@
 package com.dkanada.chip.core;
 
 import java.util.Random;
-import java.util.Stack;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -18,8 +17,6 @@ public class CPU {
     private char pc;
     private char sp;
     private char i;
-
-    private Stack<Character> stack = new Stack<>();
 
     private char delay;
     private char sound;
