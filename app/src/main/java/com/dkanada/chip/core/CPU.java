@@ -232,7 +232,8 @@ public class CPU {
                         pc += 2;
                         break;
                     case 0x0029:
-                        i = (char) (memory.getFontAddress() + (getX(opcode) * 0x5));
+                        char offset = (char) (v[getX(opcode)] * 0x5);
+                        i = (char) (memory.getFontAddress() + offset);
                         pc += 2;
                         break;
                     case 0x0033:
