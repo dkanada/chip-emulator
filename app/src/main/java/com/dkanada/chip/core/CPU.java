@@ -1,6 +1,7 @@
 package com.dkanada.chip.core;
 
 import java.util.Random;
+import java.util.Stack;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -17,6 +18,8 @@ public class CPU {
     private char pc;
     private char sp;
     private char i;
+
+    private Stack<Character> stack = new Stack<>();
 
     private char delay;
     private char sound;
@@ -53,7 +56,7 @@ public class CPU {
                         break;
                     case 0x000E:
                         // return from subroutine
-                        pc = memory.getWord(sp);
+                        pc = memory.getWord((char) (sp - 2));
                         sp -= 2;
                         break;
                 }
@@ -64,9 +67,11 @@ public class CPU {
                 break;
             case 0x2000:
                 // call subroutine
+                pc += 2;
+                memory.setByte(sp, (char) ((pc & 0x0F00) >> 8));
+                memory.setByte((char) (sp + 1), (char) (pc & 0x00FF));
+                sp += 2;
                 pc = getNNN(opcode);
-                memory.setByte(sp++, (char) ((getNNN(opcode) & 0x0F00) >> 8));
-                memory.setByte(sp++, (char) (getNNN(opcode) & 0x00FF));
                 break;
             case 0x3000:
                 pc += 2;

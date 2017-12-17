@@ -19,7 +19,7 @@ public class GameThread extends Thread implements EventListener {
         while (true) {
             core.step();
             try {
-                sleep(40);
+                sleep(10);
             } catch (Exception e) {
                 // nothing
             }
