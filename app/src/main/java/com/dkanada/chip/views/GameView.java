@@ -57,7 +57,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 }
             }
         } else {
-            canvas.drawRect(0, 0, 100, 100, paint);
+            float startX = (width / 2) - 100;
+            float startY = (height / 2) - 100;
+            float endX = (width / 2) + 100;
+            float endY = (height / 2) + 100;
+            canvas.drawRect(startX, startY, endX, endY, paint);
         }
     }
 

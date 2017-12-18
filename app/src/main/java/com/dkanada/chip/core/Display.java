@@ -11,8 +11,8 @@ public class Display {
         return display;
     }
 
-    public void clearDisplay() {
-        display = new byte[64][32];
+    public void setDisplay(byte[][] value) {
+        display = value;
     }
 
     public byte getPixel(int x, int y) {

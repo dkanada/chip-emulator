@@ -16,7 +16,7 @@ public class CPU {
 
     private char pc;
     private char sp;
-    private char i;
+    private char index;
 
     private char delay;
     private char sound;
@@ -31,7 +31,7 @@ public class CPU {
 
         pc = 0x200;
         sp = 0x000;
-        i = 0x200;
+        index = 0x200;
 
         sound = 0;
         delay = 0;
@@ -46,7 +46,7 @@ public class CPU {
                 switch (opcode & 0x000F) {
                     case 0x0000:
                         // clear display
-                        display.clearDisplay();
+                        display.setDisplay(new byte[64][32]);
                         // callback
                         event.updateDisplay(display.getDisplay());
                         pc += 2;
@@ -55,6 +55,7 @@ public class CPU {
                         // return from subroutine
                         pc = memory.getWord((char) (sp - 2));
                         sp -= 2;
+                        memory.setWord(sp, (char) 0x0);
                         break;
                 }
                 break;
@@ -82,7 +83,7 @@ public class CPU {
                 break;
             case 0x5000:
                 pc += 2;
-                if (v[getX(opcode)] != v[getY(opcode)]) {
+                if (v[getX(opcode)] == v[getY(opcode)]) {
                     pc += 2;
                 }
                 break;
@@ -114,22 +115,27 @@ public class CPU {
                         break;
                     case 0x0004:
                         int add = v[getX(opcode)] + v[getY(opcode)];
+                        // set v[f] = 1 if carry
                         if (add > 255) {
                             v[0xF] = 1;
                         } else {
                             v[0xF] = 0;
                         }
                         v[getX(opcode)] = (char) add;
+                        // handle carry
+                        v[getX(opcode)] &= 0xFF;
                         pc += 2;
                         break;
                     case 0x0005:
                         int subtract = v[getX(opcode)] - v[getY(opcode)];
+                        // set v[f] = 1 if not borrow
                         if (subtract < 0) {
-                            v[0xF] = 1;
-                        } else {
                             v[0xF] = 0;
+                        } else {
+                            v[0xF] = 1;
                         }
                         v[getX(opcode)] = (char) subtract;
+                        v[getX(opcode)] &= 0xFF;
                         pc += 2;
                         break;
                     case 0x0006:
@@ -140,16 +146,18 @@ public class CPU {
                         break;
                     case 0x0007:
                         int subInverse = v[getY(opcode)] - v[getX(opcode)];
+                        // set v[f] = 1 if not borrow
                         if (subInverse < 0) {
                             v[0xF] = 0;
                         } else {
                             v[0xF] = 1;
                         }
                         v[getX(opcode)] = (char) subInverse;
+                        v[getX(opcode)] &= 0xFF;
                         pc += 2;
                         break;
                     case 0x000E:
-                        v[0xF] = (char) (v[getY(opcode)] & 0xF00);
+                        v[0xF] = (char) (v[getY(opcode)] >> 7);
                         v[getY(opcode)] <<= 1;
                         v[getX(opcode)] = v[getY(opcode)];
                         pc += 2;
@@ -163,7 +171,7 @@ public class CPU {
                 }
                 break;
             case 0xA000:
-                i = getNNN(opcode);
+                index = getNNN(opcode);
                 pc += 2;
                 break;
             case 0xB000:
@@ -178,15 +186,18 @@ public class CPU {
             case 0xD000:
                 char startX = v[getX(opcode)];
                 char startY = v[getY(opcode)];
-                for (int n = 0; n < getN(opcode); n++) {
-                    char line = memory.getByte((char) (i + n));
-                    for (int inc = 0; inc < 8; inc++) {
-                        char pixel = (char) (line & (0x80 >> inc));
+                // collision detection is completely broken without this line
+                v[0xF] = 0;
+                for (int y = 0; y < getN(opcode); y++) {
+                    char line = memory.getByte((char) (index + y));
+                    for (int x = 0; x < 8; x++) {
+                        char pixel = (char) (line & (0x80 >> x));
                         if (pixel != 0) {
-                            if(display.getPixel((startX + inc) % 64, (startY + n) % 32) != 0) {
+                            int test = display.getPixel((startX + x) % 64, (startY + y) % 32);
+                            if (display.getPixel((startX + x) % 64, (startY + y) % 32) != 0) {
                                 v[0xF] = 1;
                             }
-                            display.setPixel((startX + inc) % 64, (startY + n) % 32, (byte) 1);
+                            display.setPixel((startX + x) % 64, (startY + y) % 32, (byte) 1);
                         }
                     }
                 }
@@ -228,18 +239,18 @@ public class CPU {
                         pc += 2;
                         break;
                     case 0x001E:
-                        i += v[getX(opcode)];
+                        index += v[getX(opcode)];
                         pc += 2;
                         break;
                     case 0x0029:
                         char offset = (char) (v[getX(opcode)] * 0x5);
-                        i = (char) (memory.getFontAddress() + offset);
+                        index = (char) (memory.getFontAddress() + offset);
                         pc += 2;
                         break;
                     case 0x0033:
                         int num = v[getX(opcode)];
-                        for(int inc = 2; inc >= 0; inc--) {
-                            memory.setByte((char) (i + inc), (char) (num % 10));
+                        for (int i = 2; i >= 0; i--) {
+                            memory.setByte((char) (index + i), (char) (num % 10));
                             num /= 10;
                         }
                         pc += 2;
@@ -247,14 +258,14 @@ public class CPU {
                     case 0x0055:
                         // dump registers
                         for (int x = 0; x <= getX(opcode); x++) {
-                            memory.setByte(i++, v[x]);
+                            memory.setByte(index++, v[x]);
                         }
                         pc += 2;
                         break;
                     case 0x0065:
                         // load registers
                         for (int x = 0; x <= getX(opcode); x++) {
-                            v[x] = memory.getByte(i++);
+                            v[x] = memory.getByte(index++);
                         }
                         pc += 2;
                         break;
