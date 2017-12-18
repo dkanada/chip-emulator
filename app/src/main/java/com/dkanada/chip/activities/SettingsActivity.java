@@ -33,10 +33,8 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void setInitialConfiguration() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(R.string.settings);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.settings);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -44,15 +42,11 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            toolbar.setBackgroundColor(appPreferences.getPrimaryColor());
-            if (appPreferences.getStatusColor()) {
-                getWindow().setStatusBarColor(Utils.dark(appPreferences.getPrimaryColor(), 0.8));
-            }
-            if (appPreferences.getNavigationColor()) {
-                getWindow().setNavigationBarColor(appPreferences.getPrimaryColor());
-            }
-        }
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        getWindow().setStatusBarColor(Utils.dark(appPreferences.getPrimaryColor(), 0.8));
+        getWindow().setNavigationBarColor(appPreferences.getPrimaryColor());
     }
 }

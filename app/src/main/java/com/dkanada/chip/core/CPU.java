@@ -193,7 +193,6 @@ public class CPU {
                     for (int x = 0; x < 8; x++) {
                         char pixel = (char) (line & (0x80 >> x));
                         if (pixel != 0) {
-                            int test = display.getPixel((startX + x) % 64, (startY + y) % 32);
                             if (display.getPixel((startX + x) % 64, (startY + y) % 32) != 0) {
                                 v[0xF] = 1;
                             }

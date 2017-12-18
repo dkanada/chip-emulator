@@ -8,7 +8,6 @@ import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 
 public class Utils {
-    // check app permissions
     public static Boolean checkPermissions(Context context) {
         Activity activity = (Activity) context;
         Boolean res = false;
