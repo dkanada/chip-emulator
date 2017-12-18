@@ -29,4 +29,9 @@ public class Memory {
     public char getWord(char address) {
         return (char) (memory[address] << 8 | memory[address + 1]);
     }
+
+    public void setWord(char address, char value) {
+        memory[address] = (char) (value & 0xFF00);
+        memory[address + 1] = (char) (value & 0x00FF);
+    }
 }

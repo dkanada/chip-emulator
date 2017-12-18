@@ -64,9 +64,7 @@ public class CPU {
                 break;
             case 0x2000:
                 // call subroutine
-                pc += 2;
-                memory.setByte(sp, (char) ((pc & 0x0F00) >> 8));
-                memory.setByte((char) (sp + 1), (char) (pc & 0x00FF));
+                memory.setWord(sp, (char) (pc + 2));
                 sp += 2;
                 pc = getNNN(opcode);
                 break;
