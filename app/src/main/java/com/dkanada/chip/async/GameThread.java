@@ -28,8 +28,8 @@ public class GameThread extends Thread implements EventListener {
     }
 
     @Override
-    public void updateDisplay(byte[][] display) {
-        gameView.update(display);
+    public void updateDisplay(byte[][] array) {
+        gameView.setDisplay(array);
         gameView.postInvalidate();
     }
 }

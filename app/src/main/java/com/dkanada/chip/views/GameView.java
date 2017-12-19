@@ -5,34 +5,30 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.dkanada.chip.async.GameThread;
+public class GameView extends SurfaceView {
+    private Paint background;
+    private Paint foreground;
+    private byte[][] display;
 
-public class GameView extends SurfaceView implements SurfaceHolder.Callback {
-    SurfaceHolder surfaceHolder;
-    GameThread gameThread;
-    Paint paint;
-
-    byte[][] display;
 
     public GameView(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
         setFocusable(true);
         setWillNotDraw(false);
 
-        paint = new Paint();
-        paint.setColor(Color.GREEN);
-        paint.setStyle(Paint.Style.FILL);
+        background = new Paint();
+        background.setColor(Color.BLACK);
+        background.setStyle(Paint.Style.FILL);
 
-        gameThread = new GameThread(this);
-        surfaceHolder = getHolder();
-        surfaceHolder.addCallback(this);
+        foreground = new Paint();
+        foreground.setColor(Color.WHITE);
+        foreground.setStyle(Paint.Style.FILL);
     }
 
-    public void update(byte[][] array) {
-        this.display = array;
+    public void setDisplay(byte[][] array) {
+        display = array;
     }
 
     @Override
@@ -42,6 +38,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         int width = canvas.getWidth();
         int height = canvas.getHeight();
 
+        canvas.drawRect(0, 0, width, height, background);
         if (display != null) {
             double stepX = width / display.length;
             double stepY = height / display[0].length;
@@ -53,7 +50,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                         float startY = (float) stepY * y;
                         float endX = (float) stepX * (x + 1);
                         float endY = (float) stepY * (y + 1);
-                        canvas.drawRect(startX, startY, endX, endY, paint);
+                        canvas.drawRect(startX, startY, endX, endY, foreground);
                     }
                 }
             }
@@ -62,7 +59,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             float startY = (height / 2) - 100;
             float endX = (width / 2) + 100;
             float endY = (height / 2) + 100;
-            canvas.drawRect(startX, startY, endX, endY, paint);
+            canvas.drawRect(startX, startY, endX, endY, foreground);
         }
     }
 
@@ -90,18 +87,5 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         int measureHeight = MeasureSpec.makeMeasureSpec(finalHeight, MeasureSpec.EXACTLY);
 
         super.onMeasure(measureWidth, measureHeight);
-    }
-
-    @Override
-    public void surfaceCreated(SurfaceHolder holder) {
-        gameThread.start();
-    }
-
-    @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-    }
-
-    @Override
-    public void surfaceDestroyed(SurfaceHolder holder) {
     }
 }

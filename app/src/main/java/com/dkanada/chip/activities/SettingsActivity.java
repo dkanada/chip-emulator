@@ -14,7 +14,7 @@ import com.dkanada.chip.fragments.SettingsFragment;
 import com.dkanada.chip.utils.AppPreferences;
 import com.dkanada.chip.utils.Utils;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends ThemeActivity {
     private AppPreferences appPreferences;
 
     @Override
