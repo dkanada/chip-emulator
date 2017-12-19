@@ -41,6 +41,7 @@ public class SettingsActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+        toolbar.setBackgroundColor(getColor(R.color.primary));
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

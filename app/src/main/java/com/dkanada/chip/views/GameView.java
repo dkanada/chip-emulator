@@ -5,9 +5,10 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
+import com.dkanada.chip.async.GameThread;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     SurfaceHolder surfaceHolder;
@@ -63,6 +64,32 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             float endY = (height / 2) + 100;
             canvas.drawRect(startX, startY, endX, endY, paint);
         }
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        int width = 2;
+        int height = 1;
+
+        int originalWidth = MeasureSpec.getSize(widthMeasureSpec);
+        int originalHeight = MeasureSpec.getSize(heightMeasureSpec);
+        int calculatedHeight = originalWidth * height / width;
+
+        int finalWidth;
+        int finalHeight;
+
+        if (calculatedHeight > originalHeight) {
+            finalWidth = originalHeight * width / height;
+            finalHeight = originalHeight;
+        } else {
+            finalWidth = originalWidth;
+            finalHeight = calculatedHeight;
+        }
+
+        int measureWidth = MeasureSpec.makeMeasureSpec(finalWidth, MeasureSpec.EXACTLY);
+        int measureHeight = MeasureSpec.makeMeasureSpec(finalHeight, MeasureSpec.EXACTLY);
+
+        super.onMeasure(measureWidth, measureHeight);
     }
 
     @Override

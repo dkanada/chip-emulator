@@ -18,6 +18,7 @@
     <!-- other -->
     <string name="light">Light</string>
     <string name="dark">Dark</string>
+    <string name="open">Open</string>
 
     <!-- preferences -->
     <string name="pref_theme" translatable="false">pref_theme</string>

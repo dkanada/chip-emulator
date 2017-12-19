@@ -1,9 +1,10 @@
-package com.dkanada.chip.views;
+package com.dkanada.chip.async;
 
 import android.util.Log;
 
 import com.dkanada.chip.core.Core;
 import com.dkanada.chip.interfaces.EventListener;
+import com.dkanada.chip.views.GameView;
 
 public class GameThread extends Thread implements EventListener {
     GameView gameView;

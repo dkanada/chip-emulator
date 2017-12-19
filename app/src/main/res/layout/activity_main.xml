@@ -7,16 +7,13 @@
     android:orientation="vertical"
     tools:context="com.dkanada.chip.activities.MainActivity">
 
-    <com.dkanada.chip.views.AspectRatioLayout
-        android:id="@+id/frame"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/view_toolbar" />
 
-        <com.dkanada.chip.views.GameView
-            android:id="@+id/display"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </com.dkanada.chip.views.AspectRatioLayout>
+    <com.dkanada.chip.views.GameView
+        android:id="@+id/display"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>
