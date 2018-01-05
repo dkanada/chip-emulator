@@ -2,19 +2,19 @@ package com.dkanada.chip.activities;
 
 import android.content.Intent;
 import android.os.Environment;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 
 import com.dkanada.chip.R;
 import com.dkanada.chip.async.GameThread;
 import com.dkanada.chip.utils.AppPreferences;
 import com.dkanada.chip.utils.Utils;
+import com.dkanada.chip.views.ControllerView;
 import com.dkanada.chip.views.GameView;
 
 import ru.bartwell.exfilepicker.ExFilePicker;
@@ -36,12 +36,16 @@ public class MainActivity extends ThemeActivity {
 
         GameThread gameThread = new GameThread(gameView);
         gameThread.start();
+
+        LinearLayout linearLayout = new ControllerView(this);
+        LinearLayout main = findViewById(R.id.main);
+        main.addView(linearLayout, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
     }
 
     private void setInitialConfiguration() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.app_name);
-        toolbar.setBackgroundColor(getColor(R.color.primary));
+        toolbar.setBackgroundColor(AppPreferences.get(this).getPrimaryColor());
 
         setSupportActionBar(toolbar);
 
