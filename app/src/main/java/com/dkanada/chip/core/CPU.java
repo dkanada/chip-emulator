@@ -4,22 +4,23 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import com.dkanada.chip.core.instructions.ClearInstruction;
 import com.dkanada.chip.interfaces.DisplayListener;
 
 public class CPU {
-    private Memory memory;
-    private Display display;
-    private Keypad keypad;
-    private DisplayListener event;
+    public Memory memory;
+    public Display display;
+    public Keypad keypad;
+    public DisplayListener event;
 
-    private char[] v;
+    public char[] v;
 
-    private char pc;
-    private char sp;
-    private char index;
+    public char pc;
+    public char sp;
+    public char index;
 
-    private char delay;
-    private char sound;
+    public char delay;
+    public char sound;
 
     public CPU(Memory memoryCore, Display displayCore, Keypad keypadCore, DisplayListener displayListener) {
         memory = memoryCore;
@@ -45,11 +46,7 @@ public class CPU {
             case 0x0000:
                 switch (opcode & 0x000F) {
                     case 0x0000:
-                        // clear display
-                        display.setDisplay(new byte[64][32]);
-                        // callback
-                        event.updateDisplay(display.getDisplay());
-                        pc += 2;
+                        new ClearInstruction().execute(this, opcode);
                         break;
                     case 0x000E:
                         // return from subroutine

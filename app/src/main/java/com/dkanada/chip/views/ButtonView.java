@@ -13,10 +13,11 @@ public class ButtonView extends AppCompatButton {
     public ButtonView(Context context, final KeypadListener keypadListener, final char key) {
         super(context);
 
+        setText(Integer.toString(key));
         setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                Log.e("ButtonView", "onTouch :: " + key);
+                Log.e("ButtonView", "onTouch :: " + Integer.toString(key));
                 if (event.getAction() == KeyEvent.ACTION_DOWN) {
                     keypadListener.keyDown(key);
                 } else {

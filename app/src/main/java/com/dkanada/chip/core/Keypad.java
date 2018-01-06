@@ -4,6 +4,7 @@ public class Keypad {
     private char key;
 
     public Keypad() {
+        key = 1000;
     }
 
     public char getKey() {

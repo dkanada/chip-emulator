@@ -1,14 +1,11 @@
 package com.dkanada.chip.views;
 
 import android.content.Context;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.view.MotionEvent;
-import android.view.View;
+import android.text.Layout;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.dkanada.chip.interfaces.KeypadListener;
-import com.dkanada.chip.views.ButtonView;
 
 public class ControllerView extends LinearLayout {
     ButtonView up;
@@ -18,7 +15,6 @@ public class ControllerView extends LinearLayout {
 
     public ControllerView(Context context, final KeypadListener keypadListener) {
         super(context);
-
         this.setOrientation(VERTICAL);
 
         up = new ButtonView(context, keypadListener, (char) 0x2);

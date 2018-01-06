@@ -19,16 +19,26 @@ public class Core extends Thread implements DisplayListener, KeypadListener {
 
     private DisplayView displayView;
 
+    private int delay;
+    private int sound;
+
     public boolean load;
     public int time;
 
     public Core(DisplayView display) {
+        displayView = display;
+
+        reset();
+    }
+
+    public void reset() {
+        load = false;
+
         memoryCore = new Memory();
         displayCore = new Display();
         keypadCore = new Keypad();
-        cpuCore = new CPU(memoryCore, displayCore, keypadCore, this);
 
-        displayView = display;
+        cpuCore = new CPU(memoryCore, displayCore, keypadCore, this);
     }
 
     public void step() {
@@ -36,6 +46,10 @@ public class Core extends Thread implements DisplayListener, KeypadListener {
     }
 
     public void load(String file) {
+        if (load) {
+            reset();
+        }
+
         loadFont();
         loadProgram(file);
 
