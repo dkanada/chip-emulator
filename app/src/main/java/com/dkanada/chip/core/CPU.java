@@ -4,13 +4,13 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.dkanada.chip.interfaces.EventListener;
+import com.dkanada.chip.interfaces.DisplayListener;
 
 public class CPU {
     private Memory memory;
     private Display display;
     private Keypad keypad;
-    private EventListener event;
+    private DisplayListener event;
 
     private char[] v;
 
@@ -21,11 +21,11 @@ public class CPU {
     private char delay;
     private char sound;
 
-    public CPU(Memory memoryCore, Display displayCore, Keypad keypadCore, EventListener eventListener) {
+    public CPU(Memory memoryCore, Display displayCore, Keypad keypadCore, DisplayListener displayListener) {
         memory = memoryCore;
         display = displayCore;
         keypad = keypadCore;
-        event = eventListener;
+        event = displayListener;
 
         v = new char[16];
 

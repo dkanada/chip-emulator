@@ -6,40 +6,41 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 import com.dkanada.chip.R;
-import com.dkanada.chip.async.GameThread;
+import com.dkanada.chip.core.Core;
 import com.dkanada.chip.utils.AppPreferences;
 import com.dkanada.chip.utils.Utils;
 import com.dkanada.chip.views.ControllerView;
-import com.dkanada.chip.views.GameView;
+import com.dkanada.chip.views.DisplayView;
 
 import ru.bartwell.exfilepicker.ExFilePicker;
 import ru.bartwell.exfilepicker.data.ExFilePickerResult;
 
 public class MainActivity extends ThemeActivity {
-    private AppPreferences appPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        appPreferences = AppPreferences.get(this);
         setInitialConfiguration();
-
         Utils.checkPermissions(this);
-        GameView gameView = findViewById(R.id.display);
 
-        GameThread gameThread = new GameThread(gameView);
-        gameThread.start();
+        // output
+        DisplayView displayView = new DisplayView(this);
 
-        LinearLayout linearLayout = new ControllerView(this);
+        Core core = new Core(displayView);
+        core.start();
+
+        // input
+        ControllerView controllerView = new ControllerView(this, core);
+
         LinearLayout main = findViewById(R.id.main);
-        main.addView(linearLayout, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        main.addView(displayView);
+        main.addView(controllerView);
     }
 
     private void setInitialConfiguration() {
@@ -50,8 +51,8 @@ public class MainActivity extends ThemeActivity {
         setSupportActionBar(toolbar);
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        getWindow().setStatusBarColor(Utils.dark(appPreferences.getPrimaryColor(), 0.8));
-        getWindow().setNavigationBarColor(appPreferences.getPrimaryColor());
+        getWindow().setStatusBarColor(Utils.dark(AppPreferences.get(this).getPrimaryColor(), 0.8));
+        getWindow().setNavigationBarColor(AppPreferences.get(this).getPrimaryColor());
     }
 
     @Override

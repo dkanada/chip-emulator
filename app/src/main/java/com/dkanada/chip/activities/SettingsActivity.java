@@ -15,11 +15,8 @@ import com.dkanada.chip.utils.AppPreferences;
 import com.dkanada.chip.utils.Utils;
 
 public class SettingsActivity extends ThemeActivity {
-    private AppPreferences appPreferences;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        appPreferences = AppPreferences.get(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
@@ -47,7 +44,7 @@ public class SettingsActivity extends ThemeActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        getWindow().setStatusBarColor(Utils.dark(appPreferences.getPrimaryColor(), 0.8));
-        getWindow().setNavigationBarColor(appPreferences.getPrimaryColor());
+        getWindow().setStatusBarColor(Utils.dark(AppPreferences.get(this).getPrimaryColor(), 0.8));
+        getWindow().setNavigationBarColor(AppPreferences.get(this).getPrimaryColor());
     }
 }

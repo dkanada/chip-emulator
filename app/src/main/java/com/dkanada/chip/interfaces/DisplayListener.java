@@ -1,5 +1,5 @@
 package com.dkanada.chip.interfaces;
 
-public interface EventListener {
+public interface DisplayListener {
     void updateDisplay(byte[][] array);
 }

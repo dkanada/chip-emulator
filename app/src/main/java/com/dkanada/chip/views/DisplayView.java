@@ -7,14 +7,15 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.SurfaceView;
 
-public class GameView extends SurfaceView {
+import com.dkanada.chip.interfaces.DisplayListener;
+
+public class DisplayView extends SurfaceView {
     private Paint background;
     private Paint foreground;
     private byte[][] display;
 
-
-    public GameView(Context context, AttributeSet attributeSet) {
-        super(context, attributeSet);
+    public DisplayView(Context context) {
+        super(context);
         setFocusable(true);
         setWillNotDraw(false);
 

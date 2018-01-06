@@ -17,11 +17,6 @@
             android:id="@+id/toolbar"
             layout="@layout/view_toolbar" />
 
-        <com.dkanada.chip.views.GameView
-            android:id="@+id/display"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
     </LinearLayout>
 
 </LinearLayout>

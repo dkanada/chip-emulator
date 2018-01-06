@@ -3,33 +3,48 @@ package com.dkanada.chip.core;
 import android.os.Environment;
 import android.util.Log;
 
-import com.dkanada.chip.interfaces.EventListener;
+import com.dkanada.chip.interfaces.DisplayListener;
+import com.dkanada.chip.interfaces.KeypadListener;
+import com.dkanada.chip.views.DisplayView;
 
 import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public class Core {
+public class Core extends Thread implements DisplayListener, KeypadListener {
     private Memory memoryCore;
     private Display displayCore;
     private Keypad keypadCore;
-
     private CPU cpuCore;
 
-    public Core(EventListener eventListener) {
+    private DisplayView displayView;
+
+    public boolean flagLoad;
+    public boolean flagStart;
+
+    public Core(DisplayView displayView) {
         memoryCore = new Memory();
         displayCore = new Display();
         keypadCore = new Keypad();
+        cpuCore = new CPU(memoryCore, displayCore, keypadCore, this);
 
-        cpuCore = new CPU(memoryCore, displayCore, keypadCore, eventListener);
+        this.displayView = displayView;
 
         loadFont();
-        loadProgram(Environment.getExternalStorageDirectory().toString() + "/Download/c8games/BRIX");
+        loadProgram(Environment.getExternalStorageDirectory().toString() + "/Chip8/c8games/BRIX");
     }
 
     public void step() {
         cpuCore.cycle();
+    }
+
+    public void load(String file) {
+        loadFont();
+        loadProgram(file);
+
+        flagLoad = true;
+        flagStart = true;
     }
 
     public void loadFont() {
@@ -77,5 +92,39 @@ public class Core {
         } catch (IOException e) {
             Log.e("core.loadFile: ", "error reading file data");
         }
+
+        // TODO remove
+        flagLoad = true;
+        flagStart = true;
+    }
+
+    @Override
+    public void run() {
+        while (true) {
+            if (flagLoad && flagStart) {
+                step();
+            }
+            try {
+                sleep(4);
+            } catch (Exception e) {
+                // nothing
+            }
+        }
+    }
+
+    @Override
+    public void updateDisplay(byte[][] array) {
+        displayView.setDisplay(array);
+        displayView.postInvalidate();
+    }
+
+    @Override
+    public void keyDown(char key) {
+        keypadCore.setKey(key, 1);
+    }
+
+    @Override
+    public void keyUp(char key) {
+        keypadCore.setKey(key, 0);
     }
 }
