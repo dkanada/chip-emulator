@@ -8,12 +8,10 @@ import com.dkanada.chip.R;
 
 public class AppPreferences {
     private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
     private Context context;
 
     public AppPreferences(Context context) {
         this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        this.editor = sharedPreferences.edit();
         this.context = context;
     }
 
@@ -21,15 +19,15 @@ public class AppPreferences {
         return new AppPreferences(context);
     }
 
-    public String getTheme() {
-        return sharedPreferences.getString(context.getString(R.string.pref_theme), "1");
+    public String getSpeed() {
+        return sharedPreferences.getString(context.getString(R.string.pref_speed), "1");
     }
 
-    public int getPrimaryColor() {
-        return sharedPreferences.getInt(context.getString(R.string.pref_primary_color), context.getResources().getColor(R.color.primary));
+    public int getForegroundColor() {
+        return sharedPreferences.getInt(context.getString(R.string.pref_foreground_color), context.getResources().getColor(R.color.foreground));
     }
 
-    public int getAccentColor() {
-        return sharedPreferences.getInt(context.getString(R.string.pref_accent_color), context.getResources().getColor(R.color.accent));
+    public int getBackgroundColor() {
+        return sharedPreferences.getInt(context.getString(R.string.pref_background_color), context.getResources().getColor(R.color.background));
     }
 }

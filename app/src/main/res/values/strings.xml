@@ -2,29 +2,19 @@
 
     <string name="app_name">chip-emu</string>
     <string name="settings">Settings</string>
-    <string name="settings_title_general">General</string>
-    <string name="settings_title_emulation">Emulation</string>
 
-    <string name="settings_theme">Theme</string>
-    <string name="settings_primary_color">Primary Color</string>
-    <string name="settings_primary_color_description">Set the color for the toolbar and navigation bar.</string>
-    <string name="settings_accent_color">Accent Color</string>
-    <string name="settings_accent_color_description">Set the accent color for the quick actions and other elements.</string>
-    <string name="settings_status_color">Colorful Status Bar</string>
-    <string name="settings_status_color_description">Use the primary color for the status bar.</string>
-    <string name="settings_navigation_color">Colorful Navigation Bar</string>
-    <string name="settings_navigation_color_description">Use the primary color for the navigation bar.</string>
+    <string name="settings_speed">Speed</string>
+    <string name="settings_foreground_color">Foreground Color</string>
+    <string name="settings_foreground_color_description">Set the color for the display foreground.</string>
+    <string name="settings_background_color">Background Color</string>
+    <string name="settings_background_color_description">Set the color for the display background.</string>
 
     <!-- other -->
-    <string name="light">Light</string>
-    <string name="dark">Dark</string>
-    <string name="open">Open</string>
+    <string name="open">Load</string>
 
     <!-- preferences -->
-    <string name="pref_theme" translatable="false">pref_theme</string>
-    <string name="pref_primary_color" translatable="false">pref_primary_color</string>
-    <string name="pref_accent_color" translatable="false">pref_accent_color</string>
-    <string name="pref_status_color" translatable="false">pref_status_color</string>
-    <string name="pref_navigation_color" translatable="false">pref_navigation_color</string>
+    <string name="pref_speed" translatable="false">pref_speed</string>
+    <string name="pref_foreground_color" translatable="false">pref_foreground_color</string>
+    <string name="pref_background_color" translatable="false">pref_background_color</string>
 
 </resources>

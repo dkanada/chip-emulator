@@ -14,7 +14,7 @@ import com.dkanada.chip.fragments.SettingsFragment;
 import com.dkanada.chip.utils.AppPreferences;
 import com.dkanada.chip.utils.Utils;
 
-public class SettingsActivity extends ThemeActivity {
+public class SettingsActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,13 +38,12 @@ public class SettingsActivity extends ThemeActivity {
                 onBackPressed();
             }
         });
-        toolbar.setBackgroundColor(AppPreferences.get(this).getPrimaryColor());
+        toolbar.setBackgroundColor(getResources().getColor(R.color.primary));
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        getWindow().setStatusBarColor(Utils.dark(AppPreferences.get(this).getPrimaryColor(), 0.8));
-        getWindow().setNavigationBarColor(AppPreferences.get(this).getPrimaryColor());
+        getWindow().setNavigationBarColor(getResources().getColor(R.color.primary));
     }
 }

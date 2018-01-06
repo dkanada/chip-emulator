@@ -8,4 +8,7 @@
     <color name="text_light">#212121</color>
     <color name="text_dark">#FAFAFA</color>
 
+    <color name="foreground">#FFFFFF</color>
+    <color name="background">#000000</color>
+
 </resources>

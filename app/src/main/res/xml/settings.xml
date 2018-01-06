@@ -3,31 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <PreferenceCategory android:title="@string/settings_title_general">
+    <ListPreference
+        android:key="@string/pref_speed"
+        android:title="@string/settings_speed"
+        android:entries="@array/speedEntries"
+        android:entryValues="@array/speedValues"
+        android:defaultValue="1" />
 
-        <ListPreference
-            android:key="@string/pref_theme"
-            android:title="@string/settings_theme"
-            android:entries="@array/themeEntries"
-            android:entryValues="@array/themeValues"
-            android:defaultValue="1" />
+    <com.jaredrummler.android.colorpicker.ColorPreference
+        android:defaultValue="@color/foreground"
+        android:key="@string/pref_foreground_color"
+        android:summary="@string/settings_foreground_color_description"
+        android:title="@string/settings_foreground_color"
+        app:cpv_dialogTitle="@string/settings_foreground_color" />
 
-        <com.jaredrummler.android.colorpicker.ColorPreference
-            android:defaultValue="@color/primary"
-            android:key="@string/pref_primary_color"
-            android:summary="@string/settings_primary_color_description"
-            android:title="@string/settings_primary_color"
-            app:cpv_dialogTitle="@string/settings_primary_color"
-            app:cpv_showAlphaSlider="true" />
-
-        <com.jaredrummler.android.colorpicker.ColorPreference
-            android:defaultValue="@color/accent"
-            android:key="@string/pref_accent_color"
-            android:summary="@string/settings_accent_color_description"
-            android:title="@string/settings_accent_color"
-            app:cpv_dialogTitle="@string/settings_accent_color"
-            app:cpv_showAlphaSlider="true" />
-
-    </PreferenceCategory>
+    <com.jaredrummler.android.colorpicker.ColorPreference
+        android:defaultValue="@color/background"
+        android:key="@string/pref_background_color"
+        android:summary="@string/settings_background_color_description"
+        android:title="@string/settings_background_color"
+        app:cpv_dialogTitle="@string/settings_background_color" />
 
 </PreferenceScreen>

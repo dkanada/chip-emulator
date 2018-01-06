@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string-array name="themeEntries" translatable="false">
-        <item>@string/light</item>
-        <item>@string/dark</item>
+    <string-array name="speedEntries" translatable="false">
+        <item>100MHz</item>
+        <item>250MHz</item>
+        <item>500MHz</item>
+        <item>1000MHz</item>
     </string-array>
 
-    <string-array name="themeValues" translatable="false">
+    <string-array name="speedValues" translatable="false">
         <item>0</item>
         <item>1</item>
+        <item>2</item>
+        <item>3</item>
     </string-array>
 
 </resources>

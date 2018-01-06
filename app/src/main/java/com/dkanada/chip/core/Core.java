@@ -1,6 +1,5 @@
 package com.dkanada.chip.core;
 
-import android.os.Environment;
 import android.util.Log;
 
 import com.dkanada.chip.interfaces.DisplayListener;
@@ -20,19 +19,16 @@ public class Core extends Thread implements DisplayListener, KeypadListener {
 
     private DisplayView displayView;
 
-    public boolean flagLoad;
-    public boolean flagStart;
+    public boolean load;
+    public int time;
 
-    public Core(DisplayView displayView) {
+    public Core(DisplayView display) {
         memoryCore = new Memory();
         displayCore = new Display();
         keypadCore = new Keypad();
         cpuCore = new CPU(memoryCore, displayCore, keypadCore, this);
 
-        this.displayView = displayView;
-
-        loadFont();
-        loadProgram(Environment.getExternalStorageDirectory().toString() + "/Chip8/c8games/BRIX");
+        displayView = display;
     }
 
     public void step() {
@@ -43,8 +39,7 @@ public class Core extends Thread implements DisplayListener, KeypadListener {
         loadFont();
         loadProgram(file);
 
-        flagLoad = true;
-        flagStart = true;
+        load = true;
     }
 
     public void loadFont() {
@@ -88,20 +83,16 @@ public class Core extends Thread implements DisplayListener, KeypadListener {
                 address++;
             }
         } catch (FileNotFoundException e) {
-            Log.e("core.loadFile: ", "file not found");
+            Log.e("Core.loadFile", "file not found :: " + file);
         } catch (IOException e) {
-            Log.e("core.loadFile: ", "error reading file data");
+            Log.e("Core.loadFile", "error reading file :: " + file);
         }
-
-        // TODO remove
-        flagLoad = true;
-        flagStart = true;
     }
 
     @Override
     public void run() {
         while (true) {
-            if (flagLoad && flagStart) {
+            if (load) {
                 step();
             }
             try {
@@ -120,11 +111,11 @@ public class Core extends Thread implements DisplayListener, KeypadListener {
 
     @Override
     public void keyDown(char key) {
-        keypadCore.setKey(key, 1);
+        keypadCore.setKey(key);
     }
 
     @Override
     public void keyUp(char key) {
-        keypadCore.setKey(key, 0);
+        keypadCore.setKey((char) 1000);
     }
 }

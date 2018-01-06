@@ -8,10 +8,11 @@ import android.util.AttributeSet;
 import android.view.SurfaceView;
 
 import com.dkanada.chip.interfaces.DisplayListener;
+import com.dkanada.chip.utils.AppPreferences;
 
 public class DisplayView extends SurfaceView {
-    private Paint background;
     private Paint foreground;
+    private Paint background;
     private byte[][] display;
 
     public DisplayView(Context context) {
@@ -19,13 +20,13 @@ public class DisplayView extends SurfaceView {
         setFocusable(true);
         setWillNotDraw(false);
 
-        background = new Paint();
-        background.setColor(Color.BLACK);
-        background.setStyle(Paint.Style.FILL);
-
         foreground = new Paint();
-        foreground.setColor(Color.WHITE);
+        foreground.setColor(AppPreferences.get(context).getForegroundColor());
         foreground.setStyle(Paint.Style.FILL);
+
+        background = new Paint();
+        background.setColor(AppPreferences.get(context).getBackgroundColor());
+        background.setStyle(Paint.Style.FILL);
     }
 
     public void setDisplay(byte[][] array) {

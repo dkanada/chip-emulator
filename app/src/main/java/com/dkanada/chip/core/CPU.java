@@ -207,16 +207,16 @@ public class CPU {
             case 0xE000:
                 switch (opcode & 0x00FF) {
                     case 0x009E:
-                        if (keypad.getKey(v[getX(opcode)]) == 1) {
+                        pc += 2;
+                        if (keypad.getKey() == v[getX(opcode)]) {
                             pc += 2;
                         }
-                        pc += 2;
                         break;
                     case 0x00A1:
-                        if (keypad.getKey(v[getX(opcode)]) == 0) {
+                        pc += 2;
+                        if (keypad.getKey() != v[getX(opcode)]) {
                             pc += 2;
                         }
-                        pc += 2;
                         break;
                 }
                 break;
@@ -227,7 +227,10 @@ public class CPU {
                         pc += 2;
                         break;
                     case 0x000A:
-                        // TODO
+                        if (keypad.getKey() != 1000) {
+                            v[getX(opcode)] = keypad.getKey();
+                            pc += 2;
+                        }
                         break;
                     case 0x0015:
                         delay = v[getX(opcode)];

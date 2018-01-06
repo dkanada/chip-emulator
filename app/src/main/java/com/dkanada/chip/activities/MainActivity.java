@@ -3,7 +3,9 @@ package com.dkanada.chip.activities;
 import android.content.Intent;
 import android.os.Environment;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
@@ -11,7 +13,6 @@ import android.widget.LinearLayout;
 
 import com.dkanada.chip.R;
 import com.dkanada.chip.core.Core;
-import com.dkanada.chip.utils.AppPreferences;
 import com.dkanada.chip.utils.Utils;
 import com.dkanada.chip.views.ControllerView;
 import com.dkanada.chip.views.DisplayView;
@@ -19,7 +20,8 @@ import com.dkanada.chip.views.DisplayView;
 import ru.bartwell.exfilepicker.ExFilePicker;
 import ru.bartwell.exfilepicker.data.ExFilePickerResult;
 
-public class MainActivity extends ThemeActivity {
+public class MainActivity extends AppCompatActivity {
+    Core core;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +34,8 @@ public class MainActivity extends ThemeActivity {
         // output
         DisplayView displayView = new DisplayView(this);
 
-        Core core = new Core(displayView);
-        core.start();
+        // create core
+        core = new Core(displayView);
 
         // input
         ControllerView controllerView = new ControllerView(this, core);
@@ -41,18 +43,20 @@ public class MainActivity extends ThemeActivity {
         LinearLayout main = findViewById(R.id.main);
         main.addView(displayView);
         main.addView(controllerView);
+
+        Log.e("MainActivity", "start core");
+        core.start();
     }
 
     private void setInitialConfiguration() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.app_name);
-        toolbar.setBackgroundColor(AppPreferences.get(this).getPrimaryColor());
+        toolbar.setBackgroundColor(getResources().getColor(R.color.primary));
 
         setSupportActionBar(toolbar);
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        getWindow().setStatusBarColor(Utils.dark(AppPreferences.get(this).getPrimaryColor(), 0.8));
-        getWindow().setNavigationBarColor(AppPreferences.get(this).getPrimaryColor());
+        getWindow().setNavigationBarColor(getResources().getColor(R.color.primary));
     }
 
     @Override
@@ -60,7 +64,7 @@ public class MainActivity extends ThemeActivity {
         if (requestCode == 0) {
             ExFilePickerResult result = ExFilePickerResult.getFromIntent(data);
             if (result != null && result.getCount() > 0) {
-                // contains selected files names and path
+                core.load(result.getPath() + result.getNames().get(0));
             }
         }
     }
