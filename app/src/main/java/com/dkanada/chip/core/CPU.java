@@ -47,22 +47,13 @@ public class CPU {
                 pc = getNNN(opcode);
                 break;
             case 0x3000:
-                pc += 2;
-                if (v[getX(opcode)] == getNN(opcode)) {
-                    pc += 2;
-                }
+                pc += v[getX(opcode)] == getNN(opcode) ? 4 : 2;
                 break;
             case 0x4000:
-                pc += 2;
-                if (v[getX(opcode)] != getNN(opcode)) {
-                    pc += 2;
-                }
+                pc += v[getX(opcode)] != getNN(opcode) ? 4 : 2;
                 break;
             case 0x5000:
-                pc += 2;
-                if (v[getX(opcode)] == v[getY(opcode)]) {
-                    pc += 2;
-                }
+                pc += v[getX(opcode)] == getY(opcode) ? 4 : 2;
                 break;
             case 0x6000:
                 v[getX(opcode)] = getNN(opcode);
@@ -142,10 +133,7 @@ public class CPU {
                 }
                 break;
             case 0x9000:
-                pc += 2;
-                if (v[getX(opcode)] != v[getY(opcode)]) {
-                    pc += 2;
-                }
+                pc += v[getX(opcode)] != getY(opcode) ? 4 : 2;
                 break;
             case 0xA000:
                 index = getNNN(opcode);
@@ -164,7 +152,6 @@ public class CPU {
                 char startX = v[getX(opcode)];
                 char startY = v[getY(opcode)];
                 v[0xF] = 0;
-
                 for (int y = 0; y < getN(opcode); y++) {
                     char line = core.memory.getByte((char) (index + y));
                     for (int x = 0; x < 8; x++) {
