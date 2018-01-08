@@ -70,6 +70,7 @@ public class CPU {
                 break;
             case 0x7000:
                 v[getX(opcode)] += getNN(opcode);
+                v[getX(opcode)] &= 0xFF;
                 pc += 2;
                 break;
             case 0x8000:
@@ -156,7 +157,7 @@ public class CPU {
             case 0xC000:
                 Random random = new Random();
                 int r = random.nextInt(255);
-                v[getX(opcode)] = (char) (r & getNNN(opcode));
+                v[getX(opcode)] = (char) (r & getNN(opcode));
                 pc += 2;
                 break;
             case 0xD000:
