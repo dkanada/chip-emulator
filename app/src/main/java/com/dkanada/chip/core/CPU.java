@@ -1,17 +1,9 @@
 package com.dkanada.chip.core;
 
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import com.dkanada.chip.core.instructions.ClearInstruction;
-import com.dkanada.chip.interfaces.DisplayListener;
 
 public class CPU {
-    public Memory memory;
-    public Display display;
-    public Keypad keypad;
-    public DisplayListener event;
+    public Core core;
 
     public char[] v;
 
@@ -19,50 +11,38 @@ public class CPU {
     public char sp;
     public char index;
 
-    public char delay;
-    public char sound;
-
-    public CPU(Memory memoryCore, Display displayCore, Keypad keypadCore, DisplayListener displayListener) {
-        memory = memoryCore;
-        display = displayCore;
-        keypad = keypadCore;
-        event = displayListener;
+    public CPU(Core core) {
+        this.core = core;
 
         v = new char[16];
 
         pc = 0x200;
         sp = 0x000;
         index = 0x200;
-
-        sound = 0;
-        delay = 0;
-
-        initTimer();
     }
 
     public void cycle() {
-        char opcode = memory.getWord(pc);
+        char opcode = core.memory.getWord(pc);
         switch (opcode & 0xF000) {
             case 0x0000:
                 switch (opcode & 0x000F) {
                     case 0x0000:
-                        new ClearInstruction().execute(this, opcode);
+                        core.display.setDisplay(new byte[64][32]);
+                        core.updateDisplay(core.display.getDisplay());
+                        pc += 2;
                         break;
                     case 0x000E:
-                        // return from subroutine
-                        pc = memory.getWord((char) (sp - 2));
+                        pc = core.memory.getWord((char) (sp - 2));
                         sp -= 2;
-                        memory.setWord(sp, (char) 0x0);
+                        core.memory.setWord(sp, (char) 0x0);
                         break;
                 }
                 break;
             case 0x1000:
-                // jump to address
                 pc = getNNN(opcode);
                 break;
             case 0x2000:
-                // call subroutine
-                memory.setWord(sp, (char) (pc + 2));
+                core.memory.setWord(sp, (char) (pc + 2));
                 sp += 2;
                 pc = getNNN(opcode);
                 break;
@@ -119,7 +99,6 @@ public class CPU {
                             v[0xF] = 0;
                         }
                         v[getX(opcode)] = (char) add;
-                        // handle carry
                         v[getX(opcode)] &= 0xFF;
                         pc += 2;
                         break;
@@ -183,58 +162,51 @@ public class CPU {
             case 0xD000:
                 char startX = v[getX(opcode)];
                 char startY = v[getY(opcode)];
-                // collision detection is completely broken without this line
                 v[0xF] = 0;
+
                 for (int y = 0; y < getN(opcode); y++) {
-                    char line = memory.getByte((char) (index + y));
+                    char line = core.memory.getByte((char) (index + y));
                     for (int x = 0; x < 8; x++) {
                         char pixel = (char) (line & (0x80 >> x));
                         if (pixel != 0) {
-                            if (display.getPixel((startX + x) % 64, (startY + y) % 32) != 0) {
+                            if (core.display.getPixel((startX + x) % 64, (startY + y) % 32) != 0) {
                                 v[0xF] = 1;
                             }
-                            display.setPixel((startX + x) % 64, (startY + y) % 32, (byte) 1);
+                            core.display.setPixel((startX + x) % 64, (startY + y) % 32, (byte) 1);
                         }
                     }
                 }
-                // callback
-                event.updateDisplay(display.getDisplay());
+                core.updateDisplay(core.display.getDisplay());
                 pc += 2;
                 break;
             case 0xE000:
                 switch (opcode & 0x00FF) {
                     case 0x009E:
-                        pc += 2;
-                        if (keypad.getKey() == v[getX(opcode)]) {
-                            pc += 2;
-                        }
+                        pc += core.keypad.getKey() == v[getX(opcode)] ? 4 : 2;
                         break;
                     case 0x00A1:
-                        pc += 2;
-                        if (keypad.getKey() != v[getX(opcode)]) {
-                            pc += 2;
-                        }
+                        pc += core.keypad.getKey() != v[getX(opcode)] ? 4 : 2;
                         break;
                 }
                 break;
             case 0xF000:
                 switch (opcode & 0x00FF) {
                     case 0x0007:
-                        v[getX(opcode)] = delay;
+                        v[getX(opcode)] = core.delay;
                         pc += 2;
                         break;
                     case 0x000A:
-                        if (keypad.getKey() != 1000) {
-                            v[getX(opcode)] = keypad.getKey();
+                        if (core.keypad.getKey() != 1000) {
+                            v[getX(opcode)] = core.keypad.getKey();
                             pc += 2;
                         }
                         break;
                     case 0x0015:
-                        delay = v[getX(opcode)];
+                        core.delay = v[getX(opcode)];
                         pc += 2;
                         break;
                     case 0x0018:
-                        sound = v[getX(opcode)];
+                        core.sound = v[getX(opcode)];
                         pc += 2;
                         break;
                     case 0x001E:
@@ -243,28 +215,26 @@ public class CPU {
                         break;
                     case 0x0029:
                         char offset = (char) (v[getX(opcode)] * 0x5);
-                        index = (char) (memory.getFontAddress() + offset);
+                        index = (char) (core.memory.getFontAddress() + offset);
                         pc += 2;
                         break;
                     case 0x0033:
                         int num = v[getX(opcode)];
                         for (int i = 2; i >= 0; i--) {
-                            memory.setByte((char) (index + i), (char) (num % 10));
+                            core.memory.setByte((char) (index + i), (char) (num % 10));
                             num /= 10;
                         }
                         pc += 2;
                         break;
                     case 0x0055:
-                        // dump registers
                         for (int x = 0; x <= getX(opcode); x++) {
-                            memory.setByte(index++, v[x]);
+                            core.memory.setByte(index++, v[x]);
                         }
                         pc += 2;
                         break;
                     case 0x0065:
-                        // load registers
                         for (int x = 0; x <= getX(opcode); x++) {
-                            v[x] = memory.getByte(index++);
+                            v[x] = core.memory.getByte(index++);
                         }
                         pc += 2;
                         break;
@@ -291,24 +261,5 @@ public class CPU {
 
     public char getY(char opcode) {
         return (char) ((opcode & 0x00F0) >> 4);
-    }
-
-    public void initTimer() {
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                decrementTimer();
-            }
-        }, 60, 60);
-    }
-
-    public void decrementTimer() {
-        if (delay != 0) {
-            delay--;
-        }
-        if (sound != 0) {
-            sound--;
-        }
     }
 }

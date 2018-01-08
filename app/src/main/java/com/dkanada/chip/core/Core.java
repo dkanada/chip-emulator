@@ -10,45 +10,44 @@ import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Core extends Thread implements DisplayListener, KeypadListener {
-    private Memory memoryCore;
-    private Display displayCore;
-    private Keypad keypadCore;
-    private CPU cpuCore;
-
     private DisplayView displayView;
+    private boolean load;
 
-    private int delay;
-    private int sound;
+    public Memory memory;
+    public Display display;
+    public Keypad keypad;
+    public CPU cpu;
 
-    public boolean load;
-    public int time;
+    public char delay;
+    public char sound;
 
-    public Core(DisplayView display) {
-        displayView = display;
-
+    public Core(DisplayView displayView) {
+        this.displayView = displayView;
         reset();
     }
 
     public void reset() {
         load = false;
 
-        memoryCore = new Memory();
-        displayCore = new Display();
-        keypadCore = new Keypad();
+        memory = new Memory();
+        display = new Display();
+        keypad = new Keypad();
 
-        cpuCore = new CPU(memoryCore, displayCore, keypadCore, this);
+        cpu = new CPU(this);
+
+        initTimer();
     }
 
     public void step() {
-        cpuCore.cycle();
+        cpu.cycle();
     }
 
     public void load(String file) {
-        if (load) {
-            reset();
-        }
+        reset();
 
         loadFont();
         loadProgram(file);
@@ -76,9 +75,9 @@ public class Core extends Thread implements DisplayListener, KeypadListener {
                 0xF0, 0x80, 0xF0, 0x80, 0x80
         };
 
-        char address = memoryCore.getFontAddress();
+        char address = memory.getFontAddress();
         for (char value : font) {
-            memoryCore.setByte(address, value);
+            memory.setByte(address, value);
             address++;
         }
     }
@@ -91,15 +90,34 @@ public class Core extends Thread implements DisplayListener, KeypadListener {
             fileInputStream = new FileInputStream(file);
             dataInputStream = new DataInputStream(fileInputStream);
 
-            char address = memoryCore.getProgramAddress();
+            char address = memory.getProgramAddress();
             while (dataInputStream.available() > 0) {
-                memoryCore.setByte(address, (char) dataInputStream.readByte());
+                memory.setByte(address, (char) dataInputStream.readByte());
                 address++;
             }
         } catch (FileNotFoundException e) {
             Log.e("Core.loadFile", "file not found :: " + file);
         } catch (IOException e) {
             Log.e("Core.loadFile", "error reading file :: " + file);
+        }
+    }
+
+    public void initTimer() {
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                decrementTimer();
+            }
+        }, 60, 60);
+    }
+
+    public void decrementTimer() {
+        if (delay != 0) {
+            delay--;
+        }
+        if (sound != 0) {
+            sound--;
         }
     }
 
@@ -125,11 +143,11 @@ public class Core extends Thread implements DisplayListener, KeypadListener {
 
     @Override
     public void keyDown(char key) {
-        keypadCore.setKey(key);
+        keypad.setKey(key);
     }
 
     @Override
     public void keyUp(char key) {
-        keypadCore.setKey((char) 1000);
+        keypad.setKey((char) 1000);
     }
 }
