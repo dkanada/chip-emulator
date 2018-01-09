@@ -4,7 +4,7 @@ import com.dkanada.chip.core.CPU;
 import com.dkanada.chip.core.Core;
 import com.dkanada.chip.core.OPCode;
 
-public class DrawVxVyNInstruction implements Instruction {
+public class Instruction_0xD000 implements Instruction {
     @Override
     public void execute(Core core, CPU cpu, OPCode opcode) {
         char startX = cpu.v[opcode.getX()];

@@ -1,14 +1,14 @@
-package com.dkanada.chip.core.instructions;
+package com.dkanada.chip.core.instructions.xF000;
 
 import com.dkanada.chip.core.CPU;
 import com.dkanada.chip.core.Core;
 import com.dkanada.chip.core.OPCode;
+import com.dkanada.chip.core.instructions.Instruction;
 
-public class ClearScreenInstruction implements Instruction {
+public class Instruction_0xF018 implements Instruction {
     @Override
     public void execute(Core core, CPU cpu, OPCode opcode) {
-        core.display.setDisplay(new byte[64][32]);
-        core.updateDisplay(core.display.getDisplay());
+        core.sound = cpu.v[opcode.getX()];
         cpu.pc += 2;
     }
 }
