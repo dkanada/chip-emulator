@@ -53,7 +53,7 @@ public class CPU {
                 pc += v[getX(opcode)] != getNN(opcode) ? 4 : 2;
                 break;
             case 0x5000:
-                pc += v[getX(opcode)] == getY(opcode) ? 4 : 2;
+                pc += v[getX(opcode)] == v[getY(opcode)] ? 4 : 2;
                 break;
             case 0x6000:
                 v[getX(opcode)] = getNN(opcode);
@@ -133,7 +133,7 @@ public class CPU {
                 }
                 break;
             case 0x9000:
-                pc += v[getX(opcode)] != getY(opcode) ? 4 : 2;
+                pc += v[getX(opcode)] != v[getY(opcode)] ? 4 : 2;
                 break;
             case 0xA000:
                 index = getNNN(opcode);
