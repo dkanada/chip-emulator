@@ -30,6 +30,10 @@ public class Core extends Thread implements DisplayListener, KeypadListener {
         reset();
     }
 
+    public Core() {
+        reset();
+    }
+
     public void reset() {
         load = false;
 
@@ -137,8 +141,10 @@ public class Core extends Thread implements DisplayListener, KeypadListener {
 
     @Override
     public void updateDisplay(byte[][] array) {
-        displayView.setDisplay(array);
-        displayView.postInvalidate();
+        if (displayView != null) {
+            displayView.setDisplay(array);
+            displayView.postInvalidate();
+        }
     }
 
     @Override

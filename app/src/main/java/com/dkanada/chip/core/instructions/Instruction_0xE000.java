@@ -3,8 +3,8 @@ package com.dkanada.chip.core.instructions;
 import com.dkanada.chip.core.CPU;
 import com.dkanada.chip.core.Core;
 import com.dkanada.chip.core.OPCode;
-import com.dkanada.chip.core.instructions.xE000.Instruction_0xE09E;
 import com.dkanada.chip.core.instructions.xE000.Instruction_0xE0A1;
+import com.dkanada.chip.core.instructions.xE000.Instruction_0xE09E;
 
 import java.util.HashMap;
 import java.util.Map;

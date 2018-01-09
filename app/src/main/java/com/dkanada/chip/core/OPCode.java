@@ -1,7 +1,7 @@
 package com.dkanada.chip.core;
 
 public class OPCode {
-    private char opcode;
+    public char opcode;
 
     public OPCode(char value) {
         opcode = value;
