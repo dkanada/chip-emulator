@@ -17,8 +17,8 @@ public class ButtonView extends AppCompatButton {
         setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                Log.e("ButtonView", "onTouch :: " + Integer.toString(key));
                 if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                    Log.e("ButtonView", "button down :: " + Integer.toString(key));
                     keypadListener.keyDown(key);
                 } else {
                     keypadListener.keyUp(key);

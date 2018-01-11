@@ -8,9 +8,14 @@ import com.dkanada.chip.core.instructions.Instruction;
 public class Instruction_0x800E implements Instruction {
     @Override
     public void execute(Core core, CPU cpu, OPCode opcode) {
-        cpu.v[0xF] = (char) (cpu.v[opcode.getY()] >> 7);
-        cpu.v[opcode.getY()] <<= 1;
-        cpu.v[opcode.getX()] = cpu.v[opcode.getY()];
+        if (core.quirkShift) {
+            cpu.v[0xF] = (char) (cpu.v[opcode.getX()] >> 7);
+            cpu.v[opcode.getX()] <<= 1;
+        } else {
+            cpu.v[0xF] = (char) (cpu.v[opcode.getY()] >> 7);
+            cpu.v[opcode.getY()] <<= 1;
+            cpu.v[opcode.getX()] = cpu.v[opcode.getY()];
+        }
         cpu.pc += 2;
     }
 }

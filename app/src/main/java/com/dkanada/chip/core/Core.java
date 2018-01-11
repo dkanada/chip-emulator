@@ -1,9 +1,11 @@
 package com.dkanada.chip.core;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.dkanada.chip.interfaces.DisplayListener;
 import com.dkanada.chip.interfaces.KeypadListener;
+import com.dkanada.chip.utils.AppPreferences;
 import com.dkanada.chip.views.DisplayView;
 
 import java.io.DataInputStream;
@@ -17,17 +19,25 @@ public class Core extends Thread implements DisplayListener, KeypadListener {
     private DisplayView displayView;
     private boolean load;
 
-    public Memory memory;
+    public CPU cpu;
     public Display display;
     public Keypad keypad;
-    public CPU cpu;
+    public Memory memory;
 
     public char delay;
     public char sound;
 
-    public Core(DisplayView displayView) {
+    public int speed;
+    public boolean quirkRegister;
+    public boolean quirkShift;
+
+    public Core(Context context, DisplayView displayView) {
         this.displayView = displayView;
         reset();
+
+        speed = AppPreferences.get(context).getSpeed();
+        quirkRegister = AppPreferences.get(context).getRegisterQuirk();
+        quirkShift = AppPreferences.get(context).getShiftQuirk();
     }
 
     public Core() {
@@ -37,11 +47,10 @@ public class Core extends Thread implements DisplayListener, KeypadListener {
     public void reset() {
         load = false;
 
-        memory = new Memory();
+        cpu = new CPU(this);
         display = new Display();
         keypad = new Keypad();
-
-        cpu = new CPU(this);
+        memory = new Memory();
 
         initTimer();
     }

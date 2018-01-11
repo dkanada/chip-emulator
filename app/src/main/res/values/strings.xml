@@ -8,6 +8,10 @@
     <string name="settings_foreground_color_description">Set the color for the display foreground.</string>
     <string name="settings_background_color">Background Color</string>
     <string name="settings_background_color_description">Set the color for the display background.</string>
+    <string name="settings_register_quirk">Register Quirk</string>
+    <string name="settings_register_quirk_description">Increment the index when storing the registers to memory.</string>
+    <string name="settings_shift_quirk">Shift Quirk</string>
+    <string name="settings_shift_quirk_description">Do not use a second register for the shift instruction.</string>
 
     <!-- other -->
     <string name="open">Load</string>
@@ -16,5 +20,7 @@
     <string name="pref_speed" translatable="false">pref_speed</string>
     <string name="pref_foreground_color" translatable="false">pref_foreground_color</string>
     <string name="pref_background_color" translatable="false">pref_background_color</string>
+    <string name="pref_register_quirk" translatable="false">pref_register_quirk</string>
+    <string name="pref_shift_quirk" translatable="false">pref_shift_quirk</string>
 
 </resources>

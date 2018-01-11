@@ -24,4 +24,16 @@
         android:title="@string/settings_background_color"
         app:cpv_dialogTitle="@string/settings_background_color" />
 
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="@string/pref_register_quirk"
+        android:summary="@string/settings_register_quirk_description"
+        android:title="@string/settings_register_quirk" />
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="@string/pref_shift_quirk"
+        android:summary="@string/settings_shift_quirk_description"
+        android:title="@string/settings_shift_quirk" />
+
 </PreferenceScreen>

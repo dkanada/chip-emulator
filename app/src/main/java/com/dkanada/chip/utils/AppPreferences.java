@@ -19,8 +19,8 @@ public class AppPreferences {
         return new AppPreferences(context);
     }
 
-    public String getSpeed() {
-        return sharedPreferences.getString(context.getString(R.string.pref_speed), "1");
+    public int getSpeed() {
+        return Integer.parseInt(sharedPreferences.getString(context.getString(R.string.pref_speed), "250"));
     }
 
     public int getForegroundColor() {
@@ -29,5 +29,13 @@ public class AppPreferences {
 
     public int getBackgroundColor() {
         return sharedPreferences.getInt(context.getString(R.string.pref_background_color), context.getResources().getColor(R.color.background));
+    }
+
+    public boolean getRegisterQuirk() {
+        return sharedPreferences.getBoolean(context.getResources().getString(R.string.pref_register_quirk), false);
+    }
+
+    public boolean getShiftQuirk() {
+        return sharedPreferences.getBoolean(context.getResources().getString(R.string.pref_shift_quirk), false);
     }
 }

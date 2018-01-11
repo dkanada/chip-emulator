@@ -28,8 +28,8 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     }
 
     private void setSpeedSummary() {
-        int speedValue = Integer.valueOf(appPreferences.getSpeed());
-        speed.setSummary(getResources().getStringArray(R.array.speedEntries)[speedValue]);
+        int speedValue = appPreferences.getSpeed();
+        speed.setSummary(getResources().getStringArray(R.array.speedEntries)[speedValue] + "MHz");
     }
 
     @Override

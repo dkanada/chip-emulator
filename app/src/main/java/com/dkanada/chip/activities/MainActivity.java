@@ -21,7 +21,9 @@ import ru.bartwell.exfilepicker.ExFilePicker;
 import ru.bartwell.exfilepicker.data.ExFilePickerResult;
 
 public class MainActivity extends AppCompatActivity {
+    DisplayView displayView;
     Core core;
+    ControllerView controllerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,13 +34,13 @@ public class MainActivity extends AppCompatActivity {
         Utils.checkPermissions(this);
 
         // output
-        DisplayView displayView = new DisplayView(this);
+        displayView = new DisplayView(this);
 
         // create core
-        core = new Core(displayView);
+        core = new Core(this, displayView);
 
         // input
-        ControllerView controllerView = new ControllerView(this, core);
+        controllerView = new ControllerView(this, core);
 
         LinearLayout main = findViewById(R.id.main);
         main.addView(displayView);

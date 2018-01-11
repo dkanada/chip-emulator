@@ -63,24 +63,4 @@ public class CPU {
         OPCode opcode = new OPCode(core.memory.getWord(pc));
         map.get(opcode.opcode & 0xF000).execute(core, this, opcode);
     }
-
-    public char getNNN(char opcode) {
-        return (char) (opcode & 0x0FFF);
-    }
-
-    public char getNN(char opcode) {
-        return (char) (opcode & 0x00FF);
-    }
-
-    public char getN(char opcode) {
-        return (char) (opcode & 0x000F);
-    }
-
-    public char getX(char opcode) {
-        return (char) ((opcode & 0x0F00) >> 8);
-    }
-
-    public char getY(char opcode) {
-        return (char) ((opcode & 0x00F0) >> 4);
-    }
 }
