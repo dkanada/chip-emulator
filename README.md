@@ -2,7 +2,11 @@
 
 <p align="center"><img src="https://github.com/dkanada/Chip8/blob/master/docs/launcher.svg" width="100" height="100"></p>
 
-This is a basic Chip8 emulator I wrote to learn about emulation. It supports all of the Chip8 instructions, key input, and video output, but does not have sound support right now. If you are having issues with a game, try enabling one of the two common emulation bugs in the settings. Since the console has no official specifications, many games have quirks depending on what documentation the author used when coding the game.
+This is a basic Chip8 emulator I wrote to learn about emulation. It supports all of the Chip8 instructions, key input, and video output, but does not have sound support right now.
+
+## Emulation Bugs
+
+If you are having issues with a game, try enabling one of the two common emulation bugs in the settings. Since the console has no official specifications, many games have quirks depending on what documentation the author used when coding the game. If that doesn't work then feel free to submit an issue here so I can fix it.
 
 ## License
 
