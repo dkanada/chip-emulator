@@ -3,13 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <ListPreference
-        android:key="@string/pref_speed"
-        android:title="@string/settings_speed"
-        android:entries="@array/speedEntries"
-        android:entryValues="@array/speedValues"
-        android:defaultValue="1" />
-
     <com.jaredrummler.android.colorpicker.ColorPreference
         android:defaultValue="@color/foreground"
         android:key="@string/pref_foreground_color"
