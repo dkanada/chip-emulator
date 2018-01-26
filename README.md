@@ -6,7 +6,7 @@ This is a basic Chip8 emulator I wrote to learn about emulation. It supports all
 
 ## Emulation Bugs
 
-If you are having issues with a game, try enabling one of the two common emulation bugs in the settings. Since the console has no official specifications, many games have quirks depending on what documentation the author used when coding the game. If that doesn't work then feel free to submit an issue here so I can fix it.
+If you are having issues with a specific game, try enabling one of the two common emulation quirks in the settings. Since the console has no official specifications, many games have bugs depending on what documentation the author used when coding the game. If that doesn't work then feel free to submit an issue here so I can fix it.
 
 ## License
 
