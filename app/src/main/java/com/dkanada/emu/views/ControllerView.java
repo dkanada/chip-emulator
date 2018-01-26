@@ -28,10 +28,10 @@ public class ControllerView extends LinearLayout {
         setOrientation(VERTICAL);
 
         LinearLayout row1 = new LinearLayout(context);
-        x1 = new ButtonView(context, keypadListener, (char) 0x1);
-        x2 = new ButtonView(context, keypadListener, (char) 0x2);
-        x3 = new ButtonView(context, keypadListener, (char) 0x3);
-        xC = new ButtonView(context, keypadListener, (char) 0xC);
+        x1 = new ButtonView(context, keypadListener, "1");
+        x2 = new ButtonView(context, keypadListener, "2");
+        x3 = new ButtonView(context, keypadListener, "3");
+        xC = new ButtonView(context, keypadListener, "C");
         row1.addView(x1);
         row1.addView(x2);
         row1.addView(x3);
@@ -39,10 +39,10 @@ public class ControllerView extends LinearLayout {
         this.addView(row1);
 
         LinearLayout row2 = new LinearLayout(context);
-        x4 = new ButtonView(context, keypadListener, (char) 0x4);
-        x5 = new ButtonView(context, keypadListener, (char) 0x5);
-        x6 = new ButtonView(context, keypadListener, (char) 0x6);
-        xD = new ButtonView(context, keypadListener, (char) 0xD);
+        x4 = new ButtonView(context, keypadListener, "4");
+        x5 = new ButtonView(context, keypadListener, "5");
+        x6 = new ButtonView(context, keypadListener, "6");
+        xD = new ButtonView(context, keypadListener, "D");
         row2.addView(x4);
         row2.addView(x5);
         row2.addView(x6);
@@ -50,10 +50,10 @@ public class ControllerView extends LinearLayout {
         this.addView(row2);
 
         LinearLayout row3 = new LinearLayout(context);
-        x7 = new ButtonView(context, keypadListener, (char) 0x7);
-        x8 = new ButtonView(context, keypadListener, (char) 0x8);
-        x9 = new ButtonView(context, keypadListener, (char) 0x9);
-        xE = new ButtonView(context, keypadListener, (char) 0xE);
+        x7 = new ButtonView(context, keypadListener, "7");
+        x8 = new ButtonView(context, keypadListener, "8");
+        x9 = new ButtonView(context, keypadListener, "9");
+        xE = new ButtonView(context, keypadListener, "E");
         row3.addView(x7);
         row3.addView(x8);
         row3.addView(x9);
@@ -61,10 +61,10 @@ public class ControllerView extends LinearLayout {
         this.addView(row3);
 
         LinearLayout row4 = new LinearLayout(context);
-        xA = new ButtonView(context, keypadListener, (char) 0xA);
-        x0 = new ButtonView(context, keypadListener, (char) 0x0);
-        xB = new ButtonView(context, keypadListener, (char) 0xB);
-        xF = new ButtonView(context, keypadListener, (char) 0xF);
+        xA = new ButtonView(context, keypadListener, "A");
+        x0 = new ButtonView(context, keypadListener, "0");
+        xB = new ButtonView(context, keypadListener, "B");
+        xF = new ButtonView(context, keypadListener, "F");
         row4.addView(xA);
         row4.addView(x0);
         row4.addView(xB);

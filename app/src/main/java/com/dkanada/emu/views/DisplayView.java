@@ -54,11 +54,11 @@ public class DisplayView extends SurfaceView {
                 }
             }
         } else {
-            float startX = (width / 2) - 100;
-            float startY = (height / 2) - 100;
-            float endX = (width / 2) + 100;
-            float endY = (height / 2) + 100;
-            canvas.drawRect(startX, startY, endX, endY, foreground);
+            //float startX = (width / 2) - 100;
+            //float startY = (height / 2) - 100;
+            //float endX = (width / 2) + 100;
+            //float endY = (height / 2) + 100;
+            //canvas.drawRect(startX, startY, endX, endY, foreground);
         }
     }
 

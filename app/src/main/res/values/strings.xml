@@ -1,6 +1,6 @@
 <resources>
 
-    <string name="app_name">chip-emu</string>
+    <string name="app_name">Chip8</string>
     <string name="settings">Settings</string>
 
     <string name="settings_speed">Speed</string>
