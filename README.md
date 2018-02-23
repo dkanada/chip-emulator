@@ -4,6 +4,9 @@
 
 This is a basic Chip8 emulator I wrote to learn about emulation. It supports all of the Chip8 instructions, key input, and video output, but does not have sound support right now.
 
+<a href="https://f-droid.org/packages/com.dkanada.chip/" target="_blank">
+<img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="80"/></a>
+
 ## Emulation Bugs
 
 If you are having issues with a specific game, try enabling one of the two common emulation quirks in the settings. Since the console has no official specifications, many games have bugs depending on what documentation the author used when coding the game. If that doesn't work then feel free to submit an issue here so I can fix it.
