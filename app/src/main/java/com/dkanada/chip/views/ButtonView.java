@@ -4,8 +4,6 @@ import android.content.Context;
 import android.support.v7.widget.AppCompatButton;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
-import android.view.View;
 
 import com.dkanada.chip.interfaces.KeypadListener;
 
@@ -21,17 +19,14 @@ public class ButtonView extends AppCompatButton {
         }
 
         setText(key);
-        setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == KeyEvent.ACTION_DOWN) {
-                    Log.e("ButtonView", "button down :: " + key);
-                    keypadListener.keyDown(keycode);
-                } else {
-                    keypadListener.keyUp(keycode);
-                }
-                return true;
+        setOnTouchListener((v, event) -> {
+            if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                Log.e("ButtonView", "button down :: " + key);
+                keypadListener.keyDown(keycode);
+            } else {
+                keypadListener.keyUp(keycode);
             }
+            return true;
         });
     }
 }
