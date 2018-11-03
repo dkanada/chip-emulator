@@ -1,17 +1,15 @@
 package com.dkanada.chip.core;
 
 public class Memory {
-    private char fontAddress = 0x050;
-    private char programAddress = 0x200;
 
     private char[] memory;
 
     public char getFontAddress() {
-        return fontAddress;
+        return (char) 0x050;
     }
 
     public char getProgramAddress() {
-        return programAddress;
+        return (char) 0x200;
     }
 
     public Memory() {

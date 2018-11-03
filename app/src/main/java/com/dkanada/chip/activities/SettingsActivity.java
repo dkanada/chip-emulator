@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.WindowManager;
 
 import com.dkanada.chip.R;
@@ -30,12 +29,7 @@ public class SettingsActivity extends AppCompatActivity {
     private void setInitialConfiguration() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.settings);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener(view -> onBackPressed());
         toolbar.setBackgroundColor(getResources().getColor(R.color.primary));
 
         setSupportActionBar(toolbar);
